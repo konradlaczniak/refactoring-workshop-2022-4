@@ -7,9 +7,12 @@
 
 #include "IEventHandler.hpp"
 #include "SnakeInterface.hpp"
+#include "Segments.hpp"
+#include "Segment.hpp"
 
 class Event;
 class IPort;
+
 
 namespace Snake
 {
@@ -40,15 +43,10 @@ private:
 
     std::pair<int, int> m_mapDimension;
     std::pair<int, int> m_foodPosition;
-
-    struct Segment
-    {
-        int x;
-        int y;
-    };
-
-    std::list<Segment> m_segments;
+    
     Direction m_currentDirection;
+
+    std::unique_ptr<Segments> m_segments;
 
     void handleTimeoutInd();
     void handleDirectionInd(std::unique_ptr<Event>);
@@ -56,7 +54,7 @@ private:
     void handleFoodResp(std::unique_ptr<Event>);
     void handlePauseInd(std::unique_ptr<Event>);
 
-    bool isSegmentAtPosition(int x, int y) const;
+    // bool isSegmentAtPosition(int x, int y) const;
     Segment calculateNewHead() const;
     void updateSegmentsIfSuccessfullMove(Segment const& newHead);
     void addHeadSegment(Segment const& newHead);
